@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TO-DO-WEB-APP</title>
+    <style>
+      body,
+      h1,
+      p {
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f2f2f2;
+        padding: 20px;
+      }
+
+      .navbar {
+        background-color: #e67e22;
+        padding: 10px;
+        color: white;
+        text-align: center;
+      }
+      .navbar-brand {
+        font-size: 24px;
+        font-weight: bold;
+      }
+
+      .container {
+        background-color: white;
+        padding: 15px;
+        margin-top: 20px;
+        border-radius: 8px;
+        box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .form-label {
+        margin-bottom: 5px;
+        font-weight: bold;
+      }
+
+      .form-control {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+
+      .btn {
+        padding: 10px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        width: 48%;
+        margin-bottom: 10px;
+      }
+      .btn-success {
+        background-color: #28a745;
+        color: white;
+      }
+      .btn-danger {
+        background-color: #dc3545;
+        color: white;
+      }
+
+      table {
+        width: 100%;
+        margin-top: 20px;
+        border-collapse: collapse;
+      }
+      th,
+      td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+      }
+      th {
+        background-color: #f8f8f8;
+      }
+      .btn-sm {
+        padding: 5px;
+        border-radius: 3px;
+        font-size: 12px;
+      }
+      .btn-sm.btn-danger {
+        background-color: #dc3545;
+        color: white;
+        border: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="navbar">
+      <!-- Navbar  -->
+      <span class="navbar-brand">TO-DO-WEB-App</span>
+    </div>
+
+    <div class="container">
+      <!-- Form to input task -->
+      <div>
+        <label for="title" class="form-label">Title</label>
+        <input
+          type="text"
+          class="form-control"
+          id="title"
+          placeholder="Enter Your Title "
+        />
+      </div>
+      <div>
+        <label for="desc" class="form-label">Description</label>
+        <textarea
+          class="form-control"
+          id="desc"
+          rows="3"
+          placeholder="Describe your task"
+        ></textarea>
+      </div>
+      <div>
+        <label for="email" class="form-label">Email</label>
+        <input
+          type="email"
+          class="form-control"
+          id="email"
+          placeholder="name00@.com"
+        />
+      </div>
+      <div>
+        <label for="date" class="form-label">Date</label>
+        <input type="date" class="form-control" id="date" />
+      </div>
+
+      <!-- Buttons  -->
+      <button class="btn btn-success" type="button" id="add">
+        Add to list
+      </button>
+      <button class="btn btn-danger" type="button" onclick="clearAll()">
+        Clear All
+      </button>
+    </div>
+
+    <div class="container">
+      <!-- Table to display tasks -->
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Email</th>
+            <th>Date</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+      </table>
+    </div>
+
+    <script>
+      // Event listener
+      document.getElementById("add").addEventListener("click", addToDo);
+
+      function addToDo() {
+        const title = document.getElementById("title").value;
+        const desc = document.getElementById("desc").value;
+        const email = document.getElementById("email").value;
+        const date = document.getElementById("date").value;
+
+        // Simple validation
+        if (title === "" || desc === "" || email === "" || date === "") {
+          alert("Please fill in all fields.");
+          return;
+        }
+
+        const tableBody = document.getElementById("tableBody");
+        const rowCount = tableBody.rows.length + 1;
+        const newRow = tableBody.insertRow();
+
+        newRow.innerHTML = `
+                <tr>
+                    <td>${rowCount}</td>
+                    <td>${title}</td>
+                    <td>${desc}</td>
+                    <td>${email}</td>
+                    <td>${date}</td>
+                    <td><button class="btn-sm btn-danger" onclick="deleteRow(this)">Delete</button></td>
+                </tr>
+            `;
+
+        clearFields();
+      }
+
+      // Function to delete
+      function deleteRow(button) {
+        const row = button.parentNode.parentNode;
+        row.parentNode.removeChild(row);
+      }
+
+      // Function to clear input fields
+      function clearFields() {
+        document.getElementById("title").value = "";
+        document.getElementById("desc").value = "";
+        document.getElementById("email").value = "";
+        document.getElementById("date").value = "";
+      }
+
+      // Function to clear all tasks from the table
+      function clearAll() {
+        document.getElementById("tableBody").innerHTML = "";
+      }
+    </script>
+  </body>
+</html>
